@@ -1,0 +1,70 @@
+@startuml TechStore
+!pragma layout smetana
+skinparam dpi 170
+skinparam monochrome true
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+hide circle
+hide empty members
+
+class SimuladorDeCompra {
+  + main(args : String[]) : void
+}
+
+interface Calculavel <<interface>> {
+  + calcularValor() : double
+  + getDescricao() : String
+}
+
+class Pedido {
+  - itens : List<ItemPedido>
+  + adicionarItem(item : ItemPedido) : void
+}
+
+class ItemPedido {
+  - nome : String
+  - preco : double
+  - quantidade : int
+}
+
+abstract class PedidoDecorator {
+  # pedido : Calculavel
+}
+
+class TaxaFrete
+class TaxaEmbalagemPresente
+class TaxaEntregaExpressa
+class TaxaSeguro
+class DescontoCupom
+
+interface FormaPagamento <<interface>> {
+  + aplicar(valor : double) : double
+  + getDescricao() : void
+}
+
+class PagamentoCartaoCredito
+class PagamentoBoleto
+class PagamentoPix
+class PagamentoDinheiro
+
+Calculavel <|.. Pedido
+Calculavel <|.. PedidoDecorator
+PedidoDecorator o-- Calculavel
+Pedido *-- "1..*" ItemPedido
+
+PedidoDecorator <|-- TaxaFrete
+PedidoDecorator <|-- TaxaEmbalagemPresente
+PedidoDecorator <|-- TaxaEntregaExpressa
+PedidoDecorator <|-- TaxaSeguro
+PedidoDecorator <|-- DescontoCupom
+
+FormaPagamento <|.. PagamentoCartaoCredito
+FormaPagamento <|.. PagamentoBoleto
+FormaPagamento <|.. PagamentoPix
+FormaPagamento <|.. PagamentoDinheiro
+
+SimuladorDeCompra ..> Calculavel
+SimuladorDeCompra ..> FormaPagamento
+@enduml
