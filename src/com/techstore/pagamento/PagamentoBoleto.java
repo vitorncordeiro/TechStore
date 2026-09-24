@@ -3,7 +3,7 @@ package com.techstore.pagamento;
 public class PagamentoBoleto implements FormaPagamento {
     @Override
     public double aplicar(double valor) {
-        return valor * 0.95
+        return valor * 0.95;
     }
 
     @Override
