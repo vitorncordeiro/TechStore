@@ -4,11 +4,11 @@ public class PagamentoCartaoCredito implements FormaPagamento {
 
     @Override
     public double aplicar(double valor) {
-        return valor * 1.2;
+        return valor * 1.02;
     }
 
     @Override
-    public void getDescricao() {
-        System.out.println("Forma de pagamento: Cartão de Crédito");
+    public String getDescricao() {
+        return "Cartão de Crédito (2% de juros)";
     }
 }

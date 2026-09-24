@@ -8,7 +8,7 @@ public class PagamentoDinheiro implements FormaPagamento {
     }
 
     @Override
-    public void getDescricao() {
-        System.out.println("Forma de pagamento: Dinheiro");
+    public String getDescricao() {
+        return "Dinheiro (sem alteração de valor)";
     }
 }
