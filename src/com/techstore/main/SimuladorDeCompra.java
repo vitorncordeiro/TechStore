@@ -30,11 +30,11 @@ public class SimuladorDeCompra {
         pedido.adicionarItem(new ItemPedido("Teclado", 150.0, 1));
         pedido.adicionarItem(new ItemPedido("Mouse", 80.0, 1));
 
-        FormaPagamento pagamento = new PagamentoPix();
-        double valorFinal = pagamento.aplicar(pedido.calcularValor());
+        Caixa caixa = new Caixa(new PagamentoPix());
+        double valorFinal = caixa.finalizar(pedido);
 
         System.out.println("Itens: " + pedido.getDescricao());
-        System.out.println("Forma de Pagamento: " + pagamento.getDescricao());
+        System.out.println("Forma de Pagamento: " + caixa.getFormaPagamento().getDescricao());
         System.out.printf("Valor final: R$ %.2f%n", valorFinal);
     }
 
@@ -45,11 +45,11 @@ public class SimuladorDeCompra {
 
         Calculavel pedidoDecorado = new TaxaSeguro(new TaxaFrete(pedido));
 
-        FormaPagamento pagamento = new PagamentoCartaoCredito();
-        double valorFinal = pagamento.aplicar(pedidoDecorado.calcularValor());
+        Caixa caixa = new Caixa(new PagamentoCartaoCredito());
+        double valorFinal = caixa.finalizar(pedidoDecorado);
 
         System.out.println("Pedido decorado: " + pedidoDecorado.getDescricao());
-        System.out.println("Forma de Pagamento: " + pagamento.getDescricao());
+        System.out.println("Forma de Pagamento: " + caixa.getFormaPagamento().getDescricao());
         System.out.printf("Valor final: R$ %.2f%n", valorFinal);
     }
 
@@ -59,11 +59,11 @@ public class SimuladorDeCompra {
 
         Calculavel pedidoDecorado = new DescontoCupom(new TaxaEntregaExpressa(pedido), 200.0);
 
-        FormaPagamento pagamento = new PagamentoBoleto();
-        double valorFinal = pagamento.aplicar(pedidoDecorado.calcularValor());
+        Caixa caixa = new Caixa(new PagamentoBoleto());
+        double valorFinal = caixa.finalizar(pedidoDecorado);
 
         System.out.println("Pedido decorado: " + pedidoDecorado.getDescricao());
-        System.out.println("Forma de Pagamento: " + pagamento.getDescricao());
+        System.out.println("Forma de Pagamento: " + caixa.getFormaPagamento().getDescricao());
         System.out.printf("Valor final: R$ %.2f%n", valorFinal);
     }
 
@@ -76,12 +76,12 @@ public class SimuladorDeCompra {
         System.out.printf("Subtotal do pedido: R$ %.2f%n", subtotal);
 
 
-        FormaPagamento pagamento = new PagamentoCartaoCredito();
-        System.out.printf("Com %s: R$ %.2f%n", pagamento.getDescricao(), pagamento.aplicar(subtotal));
+        Caixa caixa = new Caixa(new PagamentoCartaoCredito());
+        System.out.printf("Com %s: R$ %.2f%n", caixa.getFormaPagamento().getDescricao(), caixa.finalizar(pedido));
 
 
-        pagamento = new PagamentoPix();
-        System.out.printf("Trocando para %s: R$ %.2f%n", pagamento.getDescricao(), pagamento.aplicar(subtotal));
+        caixa.setFormaPagamento(new PagamentoPix());
+        System.out.printf("Trocando para %s: R$ %.2f%n", caixa.getFormaPagamento().getDescricao(), caixa.finalizar(pedido));
     }
 
     private static void demonstrarOrdemDecorators() {
